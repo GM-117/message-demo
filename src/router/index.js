@@ -51,32 +51,22 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Dashboard', icon: 'dashboard' }
-    }]
-  },
-
-  {
-    path: '/example',
-    component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'el-icon-s-help' },
-    children: [
-      {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
-      },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
-      }
+      meta: { title: '个人中心', icon: 'dashboard' }
+    }
     ]
   },
-
+  {
+    path: '/config_page',
+    component: Layout,
+    redirect: '/config_page',
+    children: [{
+      path: 'config_page',
+      name: 'Config_page',
+      component: () => import('@/views/config_page/index'),
+      meta: { title: '系统配置', icon: 'dashboard' }
+    }
+    ]
+  },
   {
     path: '/form',
     component: Layout,
@@ -85,18 +75,39 @@ export const constantRoutes = [
         path: 'index',
         name: 'Form',
         component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
+        meta: { title: '用户管理', icon: 'form' }
       }
     ]
   },
-
+  {
+    path: '/example',
+    component: Layout,
+    redirect: '/example/table',
+    name: 'Example',
+    // component: () => import('@/views/table/index'),
+    meta: { title: '工单管理', icon: 'el-icon-s-help',affix: true },
+    children: [
+      {
+        path: 'table',
+        name: 'Table',
+        component: () => import('@/views/table/index'),
+        meta: { title: '工单展示', icon: 'table' }
+      },
+      {
+        path: 'tree',
+        name: 'Tree',
+        component: () => import('@/views/tree/index'),
+        meta: { title: '工单添加', icon: 'tree' }
+      }
+    ]
+  },
   {
     path: '/nested',
     component: Layout,
     redirect: '/nested/menu1',
     name: 'Nested',
     meta: {
-      title: 'Nested',
+      title: '用户订阅管理',
       icon: 'nested'
     },
     children: [
@@ -149,16 +160,16 @@ export const constantRoutes = [
     ]
   },
 
-  {
-    path: 'external-link',
-    component: Layout,
-    children: [
-      {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'External Link', icon: 'link' }
-      }
-    ]
-  },
+  // {
+  //   path: 'external-link',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
+  //       meta: { title: 'External Link', icon: 'link' }
+  //     }
+  //   ]
+  // },
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
