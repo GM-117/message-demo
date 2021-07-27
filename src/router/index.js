@@ -51,7 +51,7 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: '个人中心', icon: 'dashboard' }
+      meta: { title: '个人中心', icon: 'user' }
     }
     ]
   },
@@ -85,7 +85,7 @@ export const constantRoutes = [
     redirect: '/example/table',
     name: 'Example',
     // component: () => import('@/views/table/index'),
-    meta: { title: '工单管理', icon: 'eye',affix: true }, 
+    meta: { title: '工单管理', icon: 'dashboard',affix: true }, 
     children: [
       {
         path: 'table',
@@ -123,7 +123,7 @@ export const constantRoutes = [
       path: 'history',
       name: 'history',
       component: () => import('@/views/history/index'),
-      meta: { title: '历史消息', icon: 'link' }
+      meta: { title: '历史消息', icon: 'message' }
     }
     ]
   },
