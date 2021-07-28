@@ -42,6 +42,11 @@ export const constantRoutes = [
     component: () => import('@/views/404'),
     hidden: true
   },
+  // {
+  //   path: '/userCenter',
+  //   component: () => import('@/views/userCenter/userCenter'),
+  // },
+
 
   {
     path: '/',
@@ -51,9 +56,20 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: '个人中心', icon: 'user' }
+      meta: { title: '首页', icon: 'user' }
     }
     ]
+  },
+  {
+    path: '/userCenter',
+    component: Layout,
+    hidden:true,
+    children:[{
+      path: 'userCenter',
+      name: 'userCenter',
+      component: () => import('@/views/userCenter/userCenter'),
+      meta: { title: '个人中心'}
+    }]
   },
   {
     path: '/config_page',
@@ -80,37 +96,37 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/example',
+    path: '/order',
     component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
+    redirect: '/order/manage',
+    name: 'order',
     // component: () => import('@/views/table/index'),
-    meta: { title: '工单管理', icon: 'dashboard',affix: true }, 
+    meta: { title: '工单管理', icon: 'dashboard', affix: true },
     children: [
       {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
+        path: 'display',
+        name: 'Display',
+        component: () => import('@/views/display/index'),
         meta: { title: '工单展示', icon: 'table' }
       },
       {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
+        path: 'add',
+        name: 'Add',
+        component: () => import('@/views/add/index'),
         meta: { title: '工单添加', icon: 'tree' }
       }
     ]
   },
 
   {
-    path: '/nested',
+    path: '/subscribe',
     component: Layout,
-    redirect: '/nested',
+    redirect: '/subscribe',
     children: [
       {
-        path: 'nested',
-        name: 'nested',
-        component: () => import('@/views/nested/index'),
+        path: 'subscribe',
+        name: 'subscribe',
+        component: () => import('@/views/subscribe/index'),
         meta: { title: '订阅管理', icon: 'nested' }
       }
     ]

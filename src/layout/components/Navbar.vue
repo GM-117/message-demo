@@ -18,7 +18,7 @@
           slot="dropdown"
           class="user-dropdown"
         >
-          <router-link to="/">
+          <router-link to="/userCenter/userCenter">
             <el-dropdown-item> 个人中心 </el-dropdown-item>
           </router-link>
           <!-- <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">

@@ -1,7 +1,9 @@
 <template>
   <div class="chart">
-    <h1>CHARTS DEMO</h1>
-    <div ref="lineChart" style="height: 350px"></div>
+    <el-card class="box-card">
+      <h1>CHARTS DEMO</h1>
+      <div ref="lineChart" style="height: 350px"></div>
+    </el-card>
   </div>
 </template>
 
@@ -64,8 +66,8 @@ export default {
 
 <style scoped>
 .chart {
-  width: 50%;
-  height: 350px;
+  width: 49%;
+  height: 450px;
   float: left;
   margin: 20px 0;
 }

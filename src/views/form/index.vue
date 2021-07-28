@@ -7,7 +7,7 @@
       border
       tooltip-effect="dark"
       style="width: 100%"
-      fit="true"
+      fit
     >
       <el-table-column type="selection"> </el-table-column>
       <el-table-column fixed prop="id" label="用户id"> </el-table-column>

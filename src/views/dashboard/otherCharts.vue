@@ -1,7 +1,9 @@
 <template>
   <div class="chart">
+    <el-card class="box-card">
       <h1>OTHER CHARTS DEMO</h1>
-    <div ref="otherChart" style="height: 350px"></div>
+      <div ref="otherChart" style="height: 350px"></div>
+    </el-card>
   </div>
 </template>
 
@@ -63,10 +65,10 @@ export default {
 </script>
 
 <style scoped>
-.chart{
-    width: 50%;
-    height: 350px;
-    float: left;
-    margin: 20px 0;
+.chart {
+  width: 49%;
+  height: 450px;
+  float: right;
+  margin: 20px 0;
 }
 </style>
