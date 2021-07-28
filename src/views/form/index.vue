@@ -1,105 +1,145 @@
 <template>
   <div class="formTabel">
-    <Delete></Delete>
-    <el-table
-      ref="multipleTable"
-      :data="tableData"
-      border
-      tooltip-effect="dark"
-      style="width: 100%"
-      fit
-    >
-      <el-table-column type="selection"> </el-table-column>
+    <div class="table-operator-bar">
+      <el-button @click="handleAdd" type="primary">添加</el-button>
+      <el-button @click="handleDelete" type="danger" :disabled="multipleSelection.length === 0">删除</el-button>
+    </div>
+    <el-table ref="multipleTable" :data="tableData" border tooltip-effect="dark" style="width: 100%" :fit="true"
+      @selection-change="handleSelectionChange">
+      <el-table-column type="selection" class="select"> </el-table-column>
       <el-table-column fixed prop="id" label="用户id"> </el-table-column>
       <el-table-column prop="name" label="用户名"> </el-table-column>
       <el-table-column prop="sexy" label="性别"> </el-table-column>
       <el-table-column prop="call" label="电话"> </el-table-column>
-      <el-table-column prop="address" label="邮箱"> </el-table-column>
-      <el-table-column prop="date" label="创建日期"> </el-table-column>
-      <el-table-column prop="date1" label="更新日期"> </el-table-column>
+      <el-table-column prop="mail" label="邮箱"> </el-table-column>
+      <el-table-column prop="firstDate" label="创建日期"> </el-table-column>
+      <el-table-column prop="updateDate" label="更新日期"> </el-table-column>
       <el-table-column fixed="right" label="操作">
         <template slot-scope="scope">
-          <el-button @click="handleClick(scope.row)" type="text" size="small"
-            >查看</el-button
-          >
-          <el-button type="text" size="small">编辑</el-button>
+          <el-button type="text" size="small" @click="handleEdit(scope.row)">编辑</el-button>
+          <el-button type="text" size="small" @click="handleDelete(scope.row)" style="color: #F56C6C;">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
+    <add-dialog ref="add-dialog" @success="handleQuery" />
   </div>
 </template>
 
 <script>
-import Delete from "./delete.vue";
+  import AddDialog from './add-dialog.vue'
 
-export default {
-  methods: {
-    handleClick(row) {
-      console.log(row);
+  export default {
+    components: {
+      AddDialog
     },
-  },
-  data() {
-    return {
-      tableData: [
-        {
-          id: "001",
-          name: "王小虎",
+    methods: {
+      handleClick(row) {
+        console.log(row);
+      }
+    },
+    data() {
+      return {
+        multipleSelection: [],
+        tableData: [
+          {
+            id: "001",
+            name: "王小虎1",
+            sexy: "男",
+            call: "15255669988",
+            mail: "1111111@qq.com",
+            firstDate: "2021-07-27",
+            updateDate: "2021-07-27",
+          },
+          {
+            id: "002",
+            name: "王小虎2",
+            sexy: "女",
+            call: "15255669918",
+            mail: "1111111@qq.com",
+            firstDate: "2021-07-27",
+            updateDate: "2021-07-27",
+          },
+          {
+            id: "003",
+            name: "王小虎3",
+            sexy: "女",
+            call: "15255669998",
+            mail: "1111111@qq.com",
+            firstDate: "2021-07-27",
+            updateDate: "2021-07-27",
+          },
+          {
+            id: "004",
+            name: "王小虎4",
+            sexy: "男",
+            call: "15255662288",
+            mail: "1111111@qq.com",
+            firstDate: "2021-07-27",
+            updateDate: "2021-07-27",
+          },
+        ],
+      };
+    },
+    methods: {
+      handleSelectionChange(val) {
+        console.log(val)
+        this.multipleSelection = val
+      },
+      handleQuery() {
+        this.tableData.unshift({
+          id: "0040",
+          name: "王小虎add",
           sexy: "男",
-          call: "15255669988",
-          address: "1111111@qq.com",
-          date: "2021-07-27",
-          date1: "2021-07-27",
-        },
-        {
-          id: "002",
-          name: "王小虎",
-          sexy: "男",
-          call: "15255669918",
-          address: "1111111@qq.com",
-          date: "2021-07-27",
-          date1: "2021-07-27",
-        },
-        {
-          id: "003",
-          name: "王小虎",
-          sexy: "男",
-          call: "15255669998",
-          address: "1111111@qq.com",
-          date: "2021-07-27",
-          date1: "2021-07-27",
-        },
-        {
-          id: "004",
-          name: "王小虎",
-          sexy: "女",
           call: "15255662288",
-          address: "1111111@qq.com",
-          date: "2021-07-27",
-          date1: "2021-07-27",
-        },
-      ],
-    };
-  },
-  components: {
-    Delete,
-  },
-  // methods:{
-  //   toggleSelection(rows) {
-  //     if (rows) {
-  //       rows.forEach(row => {
-  //         this.$refs.multipleTable.toggleRowSelection(row);
-  //       });
-  //     } else {
-  //       this.$refs.multipleTable.clearSelection();
-  //     }
-  //   }
-  // }
-};
+          mail: "1111111@qq.com",
+          firstDate: "2021-07-27",
+          updateDate: "2021-07-27",
+        })
+      },
+      handleEdit(data) {
+        console.log(data)
+        this.$refs['add-dialog'].open({
+          data, //将该行数据传入到open方法中
+          isEdit: true
+        })
+      },
+      handleDelete() {
+        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          const ids = this.multipleSelection.map((item) => item.id)
+          console.log(ids)
+          // TODO 在这个地方调用后端delete接口，删除成后刷新列表
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          })
+        })
+      },
+      handleAdd() {
+        this.$refs['add-dialog'].open()
+      }
+      //   toggleSelection(rows) {
+      //     if (rows) {
+      //       rows.forEach(row => {
+      //         this.$refs.multipleTable.toggleRowSelection(row);
+      //       });
+      //     } else {
+      //       this.$refs.multipleTable.clearSelection();
+      //     }
+      //   }
+    }
+  };
 </script>
-
-<!-- <style scoped>
-.line{
-  text-align: center;
-}
-</style> -->
-
+<style scoped>
+  .table-operator-bar {
+    padding: 16px;
+  }
+</style>
