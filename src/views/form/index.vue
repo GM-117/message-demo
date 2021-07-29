@@ -12,8 +12,9 @@
     </div>
     <div class="table-operator-bar">
       <el-button @click="handleAdd" type="primary" size="small" icon="el-icon-plus">添加</el-button>
-      <el-button @click="handleDelete" type="danger" :disabled="multipleSelection.length === 0" size="small" icon="el-icon-close">删除</el-button>
+      <el-button @click="selectDelete" type="danger" :disabled="multipleSelection.length === 0" size="small" icon="el-icon-close">删除</el-button>
     </div>
+    <!-- 下面监听的selection-change方法是固定写法，当选择改变就触发方法 -->
     <el-table ref="multipleTable" :data="tableData" border tooltip-effect="dark" style="width: 100%" :fit="true"
       @selection-change="handleSelectionChange">
       <el-table-column type="selection" class="select"> </el-table-column>
@@ -27,7 +28,7 @@
       <el-table-column fixed="right" label="操作">
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="handleEdit(scope.row)">编辑</el-button>
-          <el-button type="text" size="small" @click="handleDelete(scope.row)" style="color: #F56C6C;">删除</el-button>
+          <el-button type="text" size="small" @click="handleDelete(scope.$index,tableData)" style="color: #F56C6C;">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -95,8 +96,9 @@
       };
     },
     methods: {
+      // 将选中行的全部数据传入该方法，可以用map高阶函数打印id查看
       handleSelectionChange(val) {
-        console.log(val)
+        console.log(val.map((item) => item.id))
         this.multipleSelection = val
       },
       handleQuery() {
@@ -117,14 +119,18 @@
           isEdit: true
         })
       },
-      handleDelete() {
-        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+      handleDelete(index,rows) {
+        console.log(rows)
+        this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          const ids = this.multipleSelection.map((item) => item.id)
-          console.log(ids)
+          //在这里删除选中行的数据并传回给后端剩余的数据数组
+          rows.splice(index, 1)
+          // const ids = this.multipleSelection.map((item) => item.id)
+          // console.log(ids)
+          console.log(rows)
           // TODO 在这个地方调用后端delete接口，删除成后刷新列表
           this.$message({
             type: 'success',
@@ -136,6 +142,16 @@
             message: '已取消删除'
           })
         })
+      },
+      selectDelete(){
+        // 这里循环整个表格的数据，从最后一行开始取出对应的id与选中的行数据中的id进行对比，遇到相等就在表格中移除
+        for (let index = this.tableData.length - 1; index >= 0; index--) {
+          const data = this.tableData[index]
+          const hasData = this.multipleSelection.find((item) => item.id === data.id)
+          if (hasData) {
+            this.tableData.splice(index, 1)
+          }
+        }
       },
       handleAdd() {
         this.$refs['add-dialog'].open()
