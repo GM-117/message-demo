@@ -1,8 +1,8 @@
 <template>
   <div class="formTabel">
     <div class="table-operator-bar">
-      <el-button @click="handleAdd" type="primary">添加</el-button>
-      <el-button @click="handleDelete" type="danger" :disabled="multipleSelection.length === 0">删除</el-button>
+      <el-button @click="handleAdd" type="primary" size="small">添加</el-button>
+      <el-button @click="handleDelete" type="danger" :disabled="multipleSelection.length === 0" size="small">删除</el-button>
     </div>
     <el-table ref="multipleTable" :data="tableData" border tooltip-effect="dark" style="width: 100%" :fit="true"
       @selection-change="handleSelectionChange">
@@ -139,7 +139,10 @@
   };
 </script>
 <style scoped>
-  .table-operator-bar {
+  .formTabel {
     padding: 16px;
+  }
+  .table-operator-bar {
+    padding: 16px 0;
   }
 </style>

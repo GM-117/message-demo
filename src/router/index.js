@@ -46,8 +46,6 @@ export const constantRoutes = [
   //   path: '/userCenter',
   //   component: () => import('@/views/userCenter/userCenter'),
   // },
-
-
   {
     path: '/',
     component: Layout,
@@ -56,19 +54,19 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: '首页', icon: 'user' }
+      meta: { title: '首页', icon: 'user', isHomePage: true }
     }
     ]
   },
   {
     path: '/userCenter',
     component: Layout,
-    hidden:true,
-    children:[{
+    hidden: true,
+    children: [{
       path: 'userCenter',
       name: 'userCenter',
       component: () => import('@/views/userCenter/userCenter'),
-      meta: { title: '个人中心'}
+      meta: { title: '个人中心', isHomePage: true }
     }]
   },
   {
@@ -79,7 +77,7 @@ export const constantRoutes = [
       path: 'config_page',
       name: 'Config_page',
       component: () => import('@/views/config_page/index'),
-      meta: { title: '系统配置', icon: 'example' }
+      meta: { title: '系统配置', icon: 'example', isHomePage: true }
     }
     ]
   },
@@ -91,7 +89,7 @@ export const constantRoutes = [
         path: 'index',
         name: 'Form',
         component: () => import('@/views/form/index'),
-        meta: { title: '用户管理', icon: 'form' }
+        meta: { title: '用户管理', icon: 'form', isHomePage: true }
       }
     ]
   },
@@ -107,13 +105,13 @@ export const constantRoutes = [
         path: 'display',
         name: 'Display',
         component: () => import('@/views/display/index'),
-        meta: { title: '工单展示', icon: 'table' }
+        meta: { title: '工单展示', icon: 'table', isHomePage: true }
       },
       {
         path: 'add',
         name: 'Add',
         component: () => import('@/views/add/index'),
-        meta: { title: '工单添加', icon: 'tree' }
+        meta: { title: '工单添加', icon: 'tree', isHomePage: true }
       }
     ]
   },
@@ -127,7 +125,7 @@ export const constantRoutes = [
         path: 'subscribe',
         name: 'subscribe',
         component: () => import('@/views/subscribe/index'),
-        meta: { title: '订阅管理', icon: 'nested' }
+        meta: { title: '订阅管理', icon: 'nested', isHomePage: true }
       }
     ]
   },
@@ -139,7 +137,7 @@ export const constantRoutes = [
       path: 'history',
       name: 'history',
       component: () => import('@/views/history/index'),
-      meta: { title: '历史消息', icon: 'message' }
+      meta: { title: '历史消息', icon: 'message', isHomePage: true }
     }
     ]
   },

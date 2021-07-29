@@ -15,7 +15,7 @@
   export default {
     data() {
       return {
-        data1: [1,2,3,4],//因为没接口，先写死已选定的数据返回的value
+        data1: [1,2,3],//因为没接口，先写死已选定的数据返回的value
         data2: [10,12,13],
         data3: [19,20,21],
         first:"基础服务通知",
