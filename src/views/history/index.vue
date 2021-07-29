@@ -14,7 +14,7 @@
       <div class="block1">
         <!-- <el-button type="danger" icon="el-icon-delete" circle @click="deleteAll(tableData)"></el-button>
         <span style="padding: 40px 10px;"> </span> -->
-        <el-button type="danger" @click="deleteAll" size="small"> 一键清空<i class="el-icon-delete el-icon--right"></i></el-button>
+        <el-button type="danger" @click="deleteAll" size="small" icon="el-icon-delete el-icon--right"> 一键清空</el-button>
       </div>
     </el-row>
     <div class="table-box">

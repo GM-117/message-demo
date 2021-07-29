@@ -53,61 +53,61 @@
         ],
         ccityOptions1: [
           {
-            value: 10,
+            value: 11,
             name: '主机健康服务1'
           },{
-            value: 11,
+            value: 12,
             name: 'CPU核心处理器1'
           },{
-            value: 12,
+            value: 13,
             name: 'RAM外置内存1'
           },{
-            value: 13,
+            value: 14,
             name: '服务器集成1'
           },{
-            value: 14,
+            value: 15,
             name: '客户端服务1'
           },{
-            value: 15,
+            value: 16,
             name: '未来计划1'
           },{
-            value: 16,
+            value: 17,
             name:'西部牛仔1'
           },{
-            value: 17,
+            value: 18,
             name:'中心服务1'
           },{
-            value: 18,
+            value: 19,
             name:'物联网旁支1'
           }
         ],
         ccityOptions2: [
           {
-            value: 19,
+            value: 21,
             name: '主机健康服务2'
           },{
-            value: 20,
+            value: 22,
             name: 'CPU核心处理器2'
           },{
-            value: 21,
+            value: 23,
             name: 'RAM外置内存2'
           },{
-            value: 22,
+            value: 24,
             name: '服务器集成2'
           },{
-            value: 23,
+            value: 25,
             name: '客户端服务2'
           },{
-            value: 24,
+            value: 26,
             name: '未来计划2'
           },{
-            value: 25,
+            value: 27,
             name:'西部牛仔2'
           },{
-            value: 26,
+            value: 28,
             name:'中心服务2'
           },{
-            value: 27,
+            value: 29,
             name:'物联网旁支2'
           }
         ]

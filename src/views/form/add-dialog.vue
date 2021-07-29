@@ -34,8 +34,8 @@
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button type="primary" :loading="loading" @click="handleSubmit">确 定</el-button>
-      <el-button @click="close">取 消</el-button>
+      <el-button type="primary" :loading="loading" @click="handleSubmit" icon="el-icon-check">确 定</el-button>
+      <el-button @click="close" icon="el-icon-close">取 消</el-button>
     </span>
   </el-dialog>
 </template>
@@ -113,6 +113,9 @@
               this.$emit('success')
               this.close()
             }, 2000)
+          } else{
+            console.log('error submit!!');
+            return false;
           }
         })
       }

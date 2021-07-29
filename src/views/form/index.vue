@@ -1,8 +1,18 @@
 <template>
   <div class="formTabel">
+    <div class="select-bar">
+      <el-form :inline="true" :model="formInline" class="demo-form-inline">
+        <el-form-item>
+          <el-input v-model="formInline.user" placeholder="用户id"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" plain @click="selectSubmit" size="small" icon="el-icon-search">查询</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
     <div class="table-operator-bar">
-      <el-button @click="handleAdd" type="primary" size="small">添加</el-button>
-      <el-button @click="handleDelete" type="danger" :disabled="multipleSelection.length === 0" size="small">删除</el-button>
+      <el-button @click="handleAdd" type="primary" size="small" icon="el-icon-plus">添加</el-button>
+      <el-button @click="handleDelete" type="danger" :disabled="multipleSelection.length === 0" size="small" icon="el-icon-close">删除</el-button>
     </div>
     <el-table ref="multipleTable" :data="tableData" border tooltip-effect="dark" style="width: 100%" :fit="true"
       @selection-change="handleSelectionChange">
@@ -39,6 +49,10 @@
     },
     data() {
       return {
+        formInline: {
+          user: '',
+          region: ''
+        },
         multipleSelection: [],
         tableData: [
           {
@@ -125,6 +139,9 @@
       },
       handleAdd() {
         this.$refs['add-dialog'].open()
+      },
+      selectSubmit() {
+        console.log('submit!');
       }
       //   toggleSelection(rows) {
       //     if (rows) {
