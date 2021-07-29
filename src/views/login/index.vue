@@ -210,7 +210,7 @@ $light_gray: #eee;
   min-height: 100%;
   width: 100%;
   // background-color: $bg;
-  background-image: url("../../assets/backgroud.jpeg");
+  background-image: url("../../assets/background2.jpeg");
   overflow: hidden;
 
   .login-form {

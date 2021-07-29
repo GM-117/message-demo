@@ -135,7 +135,7 @@
   }
 </script>
 
-<style>
+<style scoped>
   .table-box {
     padding: 16px!important;
   }
