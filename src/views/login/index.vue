@@ -142,7 +142,7 @@ export default {
             });
         } else {
           this.$message({
-            message: "密码错误,请重新输入!",
+            message: "用户或密码错误,请重新输入!",
             type: "error",
           });
           console.log("error submit!!");

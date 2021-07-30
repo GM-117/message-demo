@@ -1,5 +1,5 @@
 <template>
-  <div class="formTabel">
+  <div class="formTable">
     <div class="select-bar">
       <el-form :inline="true" :model="formInline" class="demo-form-inline">
         <el-form-item>
@@ -189,7 +189,7 @@
   };
 </script>
 <style scoped>
-  .formTabel {
+  .formTable {
     padding: 16px;
   }
   .table-operator-bar {
