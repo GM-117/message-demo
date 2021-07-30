@@ -87,6 +87,10 @@
       },
       close() {
         this.dialogVisible = false
+        this.$message({
+          showClose: true,
+          message: '已取消'
+        });
         this.resetForm()
       },
       resetForm() {
@@ -110,11 +114,21 @@
             this.loading = true
             setTimeout(() => {
               this.loading = false
-              this.$emit('success')
+              this.$emit('success')//这里将success事件传给父组件，父组件再将填入表单的值加到表格中
+              this.$message({
+                showClose: true,
+                message: '恭喜你，保存成功！',
+                type: 'success'
+              });
               this.close()
             }, 2000)
           } else{
             console.log('error submit!!');
+            this.$message({
+              showClose: true,
+              message: '保存失败，请重试！',
+              type: 'error'
+            });
             return false;
           }
         })

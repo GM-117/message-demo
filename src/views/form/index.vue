@@ -15,17 +15,17 @@
       <el-button @click="selectDelete" type="danger" :disabled="multipleSelection.length === 0" size="small" icon="el-icon-close">删除</el-button>
     </div>
     <!-- 下面监听的selection-change方法是固定写法，当选择改变就触发方法 -->
-    <el-table ref="multipleTable" :data="tableData" border tooltip-effect="dark" style="width: 100%" :fit="true"
+    <el-table ref="multipleTable" :data="tableData" border tooltip-effect="dark" style="width: 950%;margin: auto;" :fit="true" stripe
       @selection-change="handleSelectionChange">
-      <el-table-column type="selection" class="select"> </el-table-column>
-      <el-table-column fixed prop="id" label="用户id"> </el-table-column>
-      <el-table-column prop="name" label="用户名"> </el-table-column>
-      <el-table-column prop="sexy" label="性别"> </el-table-column>
-      <el-table-column prop="call" label="电话"> </el-table-column>
-      <el-table-column prop="mail" label="邮箱"> </el-table-column>
-      <el-table-column prop="firstDate" label="创建日期"> </el-table-column>
-      <el-table-column prop="updateDate" label="更新日期"> </el-table-column>
-      <el-table-column fixed="right" label="操作">
+      <el-table-column type="selection" class="select" > </el-table-column>
+      <el-table-column fixed prop="id" label="用户id" align="center"> </el-table-column>
+      <el-table-column prop="name" label="用户名" align="center"> </el-table-column>
+      <el-table-column prop="sexy" label="性别" align="center"> </el-table-column>
+      <el-table-column prop="call" label="电话" align="center"> </el-table-column>
+      <el-table-column prop="mail" label="邮箱" align="center"> </el-table-column>
+      <el-table-column prop="firstDate" label="创建日期" align="center"> </el-table-column>
+      <el-table-column prop="updateDate" label="更新日期" align="center"> </el-table-column>
+      <el-table-column fixed="right" label="操作" align="center">
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="handleEdit(scope.row)">编辑</el-button>
           <el-button type="text" size="small" @click="handleDelete(scope.$index,tableData)" style="color: #F56C6C;">删除</el-button>
@@ -144,14 +144,31 @@
         })
       },
       selectDelete(){
-        // 这里循环整个表格的数据，从最后一行开始取出对应的id与选中的行数据中的id进行对比，遇到相等就在表格中移除
-        for (let index = this.tableData.length - 1; index >= 0; index--) {
-          const data = this.tableData[index]
-          const hasData = this.multipleSelection.find((item) => item.id === data.id)
-          if (hasData) {
-            this.tableData.splice(index, 1)
+        this.$confirm('此操作将永久删除选中的用户, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+            // 这里循环整个表格的数据，从最后一行开始取出对应的id与选中的行数据中的id进行对比，遇到相等就在表格中移除
+          for (let index = this.tableData.length - 1; index >= 0; index--) {
+              const data = this.tableData[index]
+              const hasData = this.multipleSelection.find((item) => item.id === data.id)
+              if (hasData) {
+                this.tableData.splice(index, 1)
+              }
           }
-        }
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          })
+        })
+
+        
       },
       handleAdd() {
         this.$refs['add-dialog'].open()
@@ -178,4 +195,5 @@
   .table-operator-bar {
     padding: 16px 0;
   }
+  
 </style>

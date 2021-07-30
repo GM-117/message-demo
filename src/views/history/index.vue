@@ -18,16 +18,16 @@
       </div>
     </el-row>
     <div class="table-box">
-      <el-table :data="tableData" style="width: 100%" max-height="500" :fit="true">
-        <el-table-column fixed prop="date" label="推送时间" >
+      <el-table :data="tableData" style="width: 100%" max-height="500" :fit="true" stripe border>
+        <el-table-column prop="date" label="推送时间"align="center">
         </el-table-column>
-        <el-table-column prop="name" label="消息名称" >
+        <el-table-column prop="name" label="消息名称" align="center">
         </el-table-column>
-        <el-table-column prop="type" label="消息类型" >
+        <el-table-column prop="type" label="消息类型" align="center">
         </el-table-column>
-        <el-table-column prop="content" label="消息详情" >
+        <el-table-column prop="content" label="消息详情" align="center">
         </el-table-column>
-        <el-table-column fixed="right" label="操作" style="text-align: center;">
+        <el-table-column label="操作" style="text-align: center;" align="center">
           <template slot-scope="scope">
             <!-- 这里的scope.$index表示该行的表格序号（很重要） -->
             <el-button @click.native.prevent="deleteRow(scope.$index, tableData)" type="text" size="small">

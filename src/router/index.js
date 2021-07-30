@@ -82,6 +82,18 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/smallServe',
+    component: Layout,
+    redirect: '/smallServe',
+    children: [{
+      path: 'smallServe',
+      name: 'smallServe',
+      component: () => import('@/views/smallServe/index'),
+      meta: { title: '微服务监控', icon: 'international', isHomePage: true }
+    }
+    ]
+  },
+  {
     path: '/form',
     component: Layout,
     children: [

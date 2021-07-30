@@ -36,7 +36,7 @@
               <el-input type="textarea" v-model="ruleForm.desc"></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="submitForm('ruleForm')" :plain="true" icon="el-icon-s-claim">立即创建</el-button>
+              <el-button type="primary" @click="submitForm('ruleForm')" :plain="true" icon="el-icon-s-claim">立即添加</el-button>
               <el-button @click="resetForm('ruleForm')" icon="el-icon-refresh-left">重置</el-button>
             </el-form-item>
           </el-form>
@@ -96,7 +96,7 @@
               // this.$emit('success')//先不发送这个成功消息给后端
               this.$message({
                 showClose: true,
-                message: '恭喜你，创建成功！',
+                message: '恭喜你，添加成功！',
                 type: 'success'
               });
               this.close()
@@ -105,7 +105,7 @@
             console.log('error submit!!');
             this.$message({
               showClose: true,
-              message: '保存失败，请重试！',
+              message: '添加失败，请重试！',
               type: 'error'
             });
             return false;
@@ -116,7 +116,7 @@
         this.$refs[formName].resetFields();
         this.$message({
           showClose: true,
-          message: '重置完成'
+          message: '重置成功'
         });
       }
     }
