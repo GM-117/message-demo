@@ -7,7 +7,7 @@
             type="primary"
             plain
             icon="el-icon-search"
-            @click="Btn_search"
+            @click="Btn_search(formData)"
             >查询</el-button
           >
         </el-form-item>
@@ -27,51 +27,55 @@
         :inline="true"
         label-width="80px"
         size="mini"
-        :model="formData"
         ref="formData"
       >
-        <el-form-item prop="id" label="编号" size="mini">
+      <!-- :model="formData" -->
+        <el-form-item prop="wid" label="编号" size="mini">
           <el-input
-            v-model="formData.id"
+            v-model="formData.wid"
             placeholder="请输入编号"
             clearable
           ></el-input>
         </el-form-item>
-        <el-form-item prop="theme" label="工单主题">
+        <el-form-item prop="topic" label="工单主题">
           <el-input
-            v-model="formData.theme"
+            v-model="formData.topic"
             placeholder="请输入工单主题"
             clearable
           ></el-input>
         </el-form-item>
-        <el-form-item prop="accepted" label="受理人" size="mini">
-          <el-select v-model="formData.accepted" placeholder="请选择">
+        <el-form-item prop="acceptor" label="受理人" size="mini">
+          <el-input
+            v-model="formData.acceptor"
+            placeholder="请输入受理人"
+            clearable
+          ></el-input>
+          <!-- <el-select v-model="formData.acceptor" placeholder="请选择">
             <el-option label="admin" value="0"></el-option>
-          </el-select>
+          </el-select> -->
         </el-form-item>
-        <el-form-item prop="status" label="状态" size="mini">
-          <el-select v-model="formData.status" placeholder="请选择">
+        <el-form-item prop="wstatus" label="状态" size="mini">
+          <el-select v-model="formData.wstatus" placeholder="请选择">
             <el-option label="未处理" value="0"></el-option>
             <el-option label="处理中" value="1"></el-option>
             <el-option label="已完成" value="2"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item prop="founder" label="创建人" size="mini">
-          <el-select v-model="formData.founder" placeholder="请选择">
-            <el-option label="管理员" value="0"></el-option>
-            <el-option label="普通用户" value="1"></el-option>
+        <el-form-item prop="createName" label="创建人" size="mini">
+          <el-select v-model="formData.createName" placeholder="请选择">
+            <el-option label="系统管理员" value="系统管理员"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item prop="priority" label="优先级" size="mini">
           <el-select v-model="formData.priority" placeholder="请选择">
-            <el-option label="高" value="0"></el-option>
-            <el-option label="中" value="1"></el-option>
-            <el-option label="低" value="2"></el-option>
+            <el-option label="高" value="1"></el-option>
+            <el-option label="低" value="0"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item prop="createWay" label="创建方式" size="mini">
-          <el-select v-model="formData.createWay" placeholder="请选择">
-            <el-option label="人工创建" value="0"></el-option>
+        <el-form-item prop="createMethod" label="创建方式" size="mini">
+          <el-select v-model="formData.createMethod" placeholder="请选择">
+            <el-option label="自动创建" value="0"></el-option>
+            <el-option label="人工创建" value="1"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item prop="createTime" label="创建时间" size="mini">
@@ -119,17 +123,17 @@
       <el-table-column type="selection" class="select"> </el-table-column>
       <el-table-column label="编号" width="95" align="center">
         <template slot-scope="scope">
-          {{ scope.row.id }}
+          {{ scope.row.wid }}
         </template>
       </el-table-column>
       <el-table-column label="处置动作" width="100" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.action }}</span>
+          <span>{{ handleTranslate(scope.row.handle)}}</span>
         </template>
       </el-table-column>
       <el-table-column label="工单主题" align="center">
         <template slot-scope="scope">
-          {{ scope.row.theme }}
+          {{ scope.row.topic }}
         </template>
       </el-table-column>
       <el-table-column
@@ -139,29 +143,29 @@
         align="center"
       >
         <template slot-scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">{{
-            scope.row.status
-          }}</el-tag>
+          <el-tag :type="scope.row.wstatus | statusFilter">
+            {{wstatusTranslate(scope.row.wstatus)}}
+          </el-tag>
         </template>
       </el-table-column>
       <el-table-column label="优先级" align="center" width="70">
         <template slot-scope="scope">
-          {{ scope.row.priority }}
+          {{ scope.row.priority===1?'高' :'低' }}
         </template>
       </el-table-column>
       <el-table-column label="创建方式" width="100" align="center">
         <template slot-scope="scope">
-          {{ scope.row.createWay }}
+          {{ scope.row.createMethod === 1?'人工创建' : '自动创建'}}
         </template>
       </el-table-column>
       <el-table-column label="受理人" width="100" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.accepted }}</span>
+          <span>{{ scope.row.acceptor }}</span>
         </template>
       </el-table-column>
       <el-table-column label="创建人" width="100" align="center">
         <template slot-scope="scope">
-          {{ scope.row.founder }}
+          {{ scope.row.createName }}
         </template>
       </el-table-column>
       <el-table-column
@@ -189,7 +193,7 @@
           <el-button
             type="text"
             size="small"
-            @click="handleDelete(scope.$index, list)"
+            @click="handleDelete(scope.row)"
             style="color: #f56c6c"
             >移除</el-button
           >
@@ -201,8 +205,8 @@
 </template>
 
 <script>
-import { getList } from "@/api/table";
-import {getCpuInfo ,getWebsocket} from "@/api/cpuInfo"
+import { getList, deleteById , deleteLists, getWork} from "@/api/table";
+// import {getCpuInfo ,getWebsocket} from "@/api/cpuInfo"
 import detailDialog from "./detailDialog.vue";
 
 export default {
@@ -212,11 +216,11 @@ export default {
   filters: {
     statusFilter(status) {
       const statusMap = {
-        已解决: "success",
-        处理中: "gray",
-        未处理: "danger",
-        指派:"warning",
-        已关闭:"info"
+        0: "success",
+        1: "gray",
+        2: "danger",
+        3: "warning",
+        4:"info"
       };
       return statusMap[status];
     },
@@ -224,16 +228,16 @@ export default {
   data() {
     return {
       formData: {
-        id: "",
-        theme: "",
-        accepted: "",
-        status: "",
-        founder: "",
+        wid: "",
+        topic: "",
+        acceptor: "",
+        wstatus: "",
+        createName: "",
         priority: "",
-        createWay: "",
+        createMethod: "",
         createTime: "",
       },
-      list: null,
+      list: [],
       listLoading: true,
       buttonLoading: false,
       multipleSelection: [],
@@ -242,15 +246,46 @@ export default {
   created() {
     this.fetchData();
     // this.getData();
-
   },
+  // mounted() {
+  //   this.getList()
+  // },
   methods: {
+    handleTranslate(num){
+      if(num===0){
+        return "请处理"
+      }else if(num==1){
+        return "请审批"
+      }else if(num==2){
+        return "请审核"
+      }else if(num==3){
+        return "请补休"
+      }else if(num==4){
+        return "请查杀"
+      }else if(num==5){
+        return "请验证"
+      }else{
+        return "请测试"
+      }
+    },
+    wstatusTranslate(num){
+      if(num===0){
+        return "未处理"
+      }else if(num==1){
+        return "处理中"
+      }else if(num==2){
+        return "已解决"
+      }else if(num==3){
+        return "已指派"
+      }else{
+        return "已关闭"
+      }
+    },
     fetchData() {
       this.listLoading = true;
-      console.log(getList());
       getList().then((response) => {
-        console.log(response.data.items);
-        this.list = response.data.items;
+        console.log(response.data.list);
+        this.list = response.data.list;
         this.listLoading = false;
       });
     },
@@ -271,57 +306,73 @@ export default {
       this.$confirm("是否删除选中内容", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning",
-      })
-        .then(() => {
-          for (let i = this.list.length - 1; i >= 0; i--) {
-            let Data = this.list[i];
-            const hasData = this.multipleSelection.find(
-              (index) => index.id === Data.id
-            );
-            // console.log(hasData)
-            if (hasData) {
-              this.list.splice(i, 1);
-            }
-          }
-          this.$message({
-            type: "success",
-            message: "删除成功!",
-          });
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除",
-          });
+        type: "warning"
+      }).then(async() => {
+        const list=this.multipleSelection.map((item)=>item.wid)
+        const res=await deleteLists({list})
+        console.log(list)
+        this.fetchData()
+          // for (let i = this.list.length - 1; i >= 0; i--) {
+          //   let Data = this.list[i];
+          //   const hasData = this.multipleSelection.find(
+          //     (index) => index.id === Data.id
+          //   );
+          //   // console.log(hasData)
+          //   if (hasData) {
+          //     this.list.splice(i, 1);
+          //   }
+          // }
+        this.$message({
+          type: "success",
+          message: res.message
+        }).catch(() => {
+          console.log("取消成功")
         });
+      })
     },
-    handleDelete(index, rows) {
-      console.log(rows);
+    handleDelete(row) {
+      console.log(row);
       this.$confirm("此操作将删除本条内容, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
-      })
-        .then(() => {
-          rows.splice(index, 1);
-          this.$message({
-            type: "success",
-            message: "删除成功!",
-          });
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除",
-          });
+      }).then(async () => {
+        const res = await deleteById({ wid: row.wid })
+        console.log(row.wid)
+        this.fetchData()
+        this.$message({
+          type: "success",
+          message: res.message,
         });
+      }).catch(() => {
+          console.log("取消成功")          
+      });
     },
     handleQuery(){
       console.log("index formdata"+this.formData.id)
     },
-    Btn_search() {
-      console.log(this.formData);
+    async Btn_search(data) {
+      console.log(data);
+      if (data === '') {
+          this.getList()
+          return
+      }
+      const res = await getWork(data)
+      console.log(res.data.records)
+      //当返回的数据是数组的时候，判断返回数组的长度是不是0来弹窗
+      if (res.data.records.length === 0) {
+          this.$message({
+            type: 'error',
+            message: "该用户不存在！"
+          })
+        }else{
+          //因为查询单条消息的时候后端返回的是一条数据对象，需要加一个[]转换成数据展示（tableDate是数组类型）
+          this.$message({
+          type: 'success',
+          message: res.message
+        })
+        this.list =res.data.records
+        }
       // if(this.formData.theme == ""){
       //   this.$message({
       //     message: '请查询必选项',
