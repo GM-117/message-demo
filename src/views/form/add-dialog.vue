@@ -11,26 +11,26 @@
              ref="form"
              label-width="100px"
     >
-      <el-form-item label="用户名" prop="name">
-        <el-input v-model="form.name"></el-input>
+      <el-form-item label="用户名" prop="username">
+        <el-input v-model="form.username"></el-input>
       </el-form-item>
-      <el-form-item label="性别" prop="sexy" >
-        <el-radio-group v-model="form.sexy">
+      <el-form-item label="性别" prop="gender" >
+        <el-radio-group v-model="form.gender">
           <el-radio :label="1">男</el-radio>
           <el-radio :label="0">女</el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="电话" prop="call">
-        <el-input v-model="form.call"></el-input>
+      <el-form-item label="电话" prop="telephone">
+        <el-input v-model="form.telephone"></el-input>
       </el-form-item>
-      <el-form-item label="邮箱" prop="mail">
-        <el-input v-model="form.mail"></el-input>
+      <el-form-item label="邮箱" prop="email">
+        <el-input v-model="form.email"></el-input>
       </el-form-item>
-      <el-form-item label="创建时间" prop="firstDate">
-        <el-date-picker type="date" placeholder="选择日期" v-model="form.firstDate" style="width: 100%"></el-date-picker>
+      <el-form-item label="创建时间" prop="createTime">
+        <el-date-picker type="date" placeholder="选择日期" v-model="form.createTime" style="width: 100%"></el-date-picker>
       </el-form-item>
-      <el-form-item label="更新时间" prop="updateDate">
-        <el-date-picker type="date" placeholder="选择日期" v-model="form.updateDate" style="width: 100%"></el-date-picker>
+      <el-form-item label="更新时间" prop="updateTime">
+        <el-date-picker type="date" placeholder="选择日期" v-model="form.updateTime" style="width: 100%"></el-date-picker>
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
@@ -41,37 +41,41 @@
 </template>
 
 <script>
+  import { saveUser,editUser } from '@/api/user'
+
+
   export default {
     data() {
       return {
         dialogVisible: false,
         loading: false,
         form: {
-          name: '',
-          sexy: 1,
-          call:'',
-          mail:'',
-          firstDate:'',
-          updateDate:''
+          id:'',
+          username: '',
+          gender: 1,
+          telephone:'',
+          email:'',
+          createTime:'',
+          updateTime:''
         },
         rules: {
-          name: [
+          username: [
             { required: true, message: '请输入用户名', trigger: 'blur' }
           ],
-          sexy: [
+          gender: [
             { required: true, message: '请选择性别', trigger: 'blur' }
           ],
-          call: [
+          telephone: [
             { required: true, message: '请填写电话', trigger: 'blur' }
           ],
-          mail:[
+          email:[
             { required: true, message: '请填写邮箱', trigger: 'blur' },
             { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
           ],
-          firstDate:[
+          createTime:[
             { required: true, message: '请选择日期', trigger: 'blur' }
           ],
-          updateDate:[
+          updateTime:[
             { required: true, message: '请选择日期', trigger: 'blur' }
           ]
         }
@@ -81,6 +85,7 @@
       async open(params = {}){
         this.dialogVisible = true
         await this.$nextTick()
+        this.isEdit = params.isEdit
         if (params.isEdit) {
           this.queryData(params.data)
         }
@@ -107,29 +112,21 @@
         this.form = cloneData
       },
       handleSubmit() {
+        const api = !this.isEdit ? saveUser : editUser
         // validate在这里对表单做校验，校验成功才会提交
-        this.$refs.form.validate((vali) => {
+        this.$refs.form.validate(async (vali) => {
+          // const cloneVali = JSON.parse(JSON.stringify(vali))
           if (vali) {
-            console.log(this.form)
             this.loading = true
-            setTimeout(() => {
-              this.loading = false
-              this.$emit('success')//这里将success事件传给父组件，父组件再将填入表单的值加到表格中
-              this.$message({
-                showClose: true,
-                message: '恭喜你，保存成功！',
-                type: 'success'
-              });
-              this.close()
-            }, 2000)
-          } else{
-            console.log('error submit!!');
+            const res = await api(this.form)
+            this.loading = false
+            this.$emit('success')//这里将success事件传给父组件，父组件再将填入表单的值加到表格中
             this.$message({
               showClose: true,
-              message: '保存失败，请重试！',
-              type: 'error'
-            });
-            return false;
+              message: '恭喜你，保存成功！',
+              type: 'success'
+            })
+            this.close()
           }
         })
       }

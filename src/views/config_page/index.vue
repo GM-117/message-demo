@@ -2,8 +2,13 @@
   <div>
     <el-row :gutter="12" style="height: 80%;width: 80%;margin:50px auto;">
       <!-- <el-col :span="11"> -->
+<<<<<<< HEAD
         <el-card shadow="always">
           <el-form style="margin:50px auto;width: 500px;margin-top: 50px;" :model="ruleForm" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+=======
+        <el-card shadow="always" >
+          <el-form style="margin:50px auto;width: 500px;margin-top: 50px;" :model="ruleForm"  ref="ruleForm" label-width="100px" class="demo-ruleForm">
+>>>>>>> af22d64d8982fca6b8bc1821646a7f5e534fb5bf
             <el-form-item label="cpu阈值：" prop="name">
               <el-input v-model="ruleForm.name" placeholder="请输入cpu阈值">
               </el-input>

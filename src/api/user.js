@@ -22,3 +22,39 @@ export function logout() {
     method: 'post'
   })
 }
+
+export function queryUserAll(params) {
+  return request({
+    url: 'http://10.11.41.15:8082/userservice/user/quaryAll',
+    method: 'get',
+    params
+  })
+}
+
+export function saveUser(data) {
+  return request({
+    url: 'http://10.11.41.15:8082/userservice/user/save',
+    method: 'post',
+    data
+  })
+}
+export function editUser(data) {
+  return request({
+    url: 'http://10.11.41.15:8082/userservice/user/updateById',
+    method: 'post',
+    data
+  })
+}
+export function deleteOneUser(params) {
+  return request({
+    url: `http://10.11.41.15:8082/userservice/user/deleteById/${params.uid}`,
+    method: 'get'
+  })
+}
+export function deleteAllUser(params) {
+  return request({
+    url: 'http://10.11.41.15:8082/userservice/user/delete',
+    method: 'get',
+    params
+  })
+}
