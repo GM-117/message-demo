@@ -15,7 +15,7 @@
         label-width="80px"
       >
         <el-form-item label="编号" prop="id">
-          <el-input v-model="form.id" :disabled="disableControl"></el-input>
+          <el-input v-model="form.id" :disabled="disableControl" maxlength="18" show-word-limit></el-input>
         </el-form-item>
 
         <el-form-item label="处置动作" prop="action">

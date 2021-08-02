@@ -33,7 +33,7 @@
         </div>
       </div>
       <div class="user-skills user-bio-section" style="padding:50px 10px;">
-        <div class="user-bio-section-header"><i class="el-icon-edit"></i>Skills</span></div>
+        <div class="user-bio-section-header"><i class="el-icon-edit"></i><span>Skills</span></div>
         <div class="user-bio-section-body">
           <div class="progress-item">
             <span>Vue</span>

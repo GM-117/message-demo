@@ -202,6 +202,7 @@
 
 <script>
 import { getList } from "@/api/table";
+import {getCpuInfo ,getWebsocket} from "@/api/cpuInfo"
 import detailDialog from "./detailDialog.vue";
 
 export default {
@@ -240,6 +241,8 @@ export default {
   },
   created() {
     this.fetchData();
+    // this.getData();
+
   },
   methods: {
     fetchData() {
@@ -251,6 +254,12 @@ export default {
         this.listLoading = false;
       });
     },
+    // getData(){
+    //   getWebsocket()
+    //   // getCpuInfo().then((res)=>{
+    //   //   console.log(res);
+    //   // })
+    // },
     jumpToAdd() {
       this.$router.push("/order/add");
     },
