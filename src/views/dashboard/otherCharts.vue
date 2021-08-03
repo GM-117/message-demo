@@ -1,7 +1,7 @@
 <template>
   <div class="chart">
     <el-card class="box-card">
-      <h1>OTHER CHARTS DEMO</h1>
+      <h1>24小时趋势变化</h1>
       <div ref="otherChart" style="height: 350px"></div>
     </el-card>
   </div>
@@ -20,7 +20,19 @@ export default {
         return [];
       },
     },
-    ychartData: {
+    cpuUsage: {
+      type: Array,
+      default: () => {
+        return [];
+      },
+    },
+    memoryUsage: {
+      type: Array,
+      default: () => {
+        return [];
+      },
+    },
+    diskUsage: {
       type: Array,
       default: () => {
         return [];
@@ -50,12 +62,38 @@ export default {
         yAxis: {
           type: "value",
         },
+        legend:{
+          right: 10,
+          data:[{
+            name:'CPU使用量',
+            textStyle:{fontWeight: 'bold'}
+          },{
+            name:'内存使用量',
+            textStyle:{fontWeight: 'bold'}
+          },{
+            name:'磁盘使用量',
+            textStyle:{fontWeight: 'bold'}
+          }]
+        },
         series: [
           {
-            data: this.ychartData,
+            name: "CPU使用量",
+            data: this.cpuUsage,
             type: "line",
             smooth: true,
           },
+          {
+            name:"内存使用量",
+            data: this.memoryUsage,
+            type: "line",
+            smooth: true,
+          },
+          {
+            name:"磁盘使用量",
+            data: this.diskUsage,
+            type: "line",
+            smooth: true,
+          }
         ],
       };
       this.myChart && this.myChart.setOption(this.option);

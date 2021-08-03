@@ -196,13 +196,13 @@
         </template>
       </el-table-column>
     </el-table>
-    <detailDialog ref="detailDialog" @success="handleQuery"/>
+    <detailDialog ref="detailDialog" @success="handleQuery" />
   </div>
 </template>
 
 <script>
 import { getList } from "@/api/table";
-import {getCpuInfo ,getWebsocket} from "@/api/cpuInfo"
+import { addUserSettings ,getUser, changeBasicSettings, changeMonitorSettings, changeWorkSettings} from "@/api/InfoDetail";
 import detailDialog from "./detailDialog.vue";
 
 export default {
@@ -215,8 +215,8 @@ export default {
         已解决: "success",
         处理中: "gray",
         未处理: "danger",
-        指派:"warning",
-        已关闭:"info"
+        指派: "warning",
+        已关闭: "info",
       };
       return statusMap[status];
     },
@@ -241,8 +241,7 @@ export default {
   },
   created() {
     this.fetchData();
-    // this.getData();
-
+    this.getData();
   },
   methods: {
     fetchData() {
@@ -254,12 +253,17 @@ export default {
         this.listLoading = false;
       });
     },
-    // getData(){
-    //   getWebsocket()
-    //   // getCpuInfo().then((res)=>{
-    //   //   console.log(res);
-    //   // })
-    // },
+    getData() {
+      // addUserSettings({user_id:777,work_service:511})
+      changeBasicSettings({basic_service:7,user_id:777})
+      changeMonitorSettings({monitor_service:7,user_id:777})
+      changeWorkSettings({user_id:777, work_service: 7})
+      
+      getUser().then((res)=>{
+        console.log(res)
+      })
+
+    },
     jumpToAdd() {
       this.$router.push("/order/add");
     },
@@ -317,8 +321,8 @@ export default {
           });
         });
     },
-    handleQuery(){
-      console.log("index formdata"+this.formData.id)
+    handleQuery() {
+      console.log("index formdata" + this.formData.id);
     },
     Btn_search() {
       console.log(this.formData);
