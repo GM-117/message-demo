@@ -37,6 +37,13 @@
             <el-form-item label="详情：" prop="wdescribe">
               <el-input type="textarea" v-model="ruleForm.wdescribe"></el-input>
             </el-form-item>
+            
+            <!-- <el-upload class="upload-demo" action="https://jsonplaceholder.typicode.com/posts/" :on-change="handleChange"
+              :file-list="fileList">
+              <el-button size="small" type="primary">点击上传</el-button>
+              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+            </el-upload> -->
+
             <el-form-item>
               <el-button type="primary" @click="submitForm" :plain="true" icon="el-icon-s-claim">立即添加</el-button>
               <el-button @click="resetForm('ruleForm')" icon="el-icon-refresh-left">重置</el-button>
@@ -54,6 +61,13 @@
   export default {
     data() {
       return {
+        // fileList: [{
+        //   name: 'food.jpeg',
+        //   url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
+        // }, {
+        //   name: 'food2.jpeg',
+        //   url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
+        // }],
         ruleForm: {
           topic: '',
           createName: '',
@@ -87,6 +101,12 @@
       }
     },
     methods: {
+      // handleChange(file, fileList) {
+      //   this.fileList = fileList.slice(-3);
+      // },
+      jumpToAdd() {
+        this.$router.push("/order/display");
+      },
       submitForm() {
         // validate在这里对表单做校验，校验成功才会提交
         this.$refs.ruleForm.validate((valid) => {
@@ -94,12 +114,14 @@
             //打印可以看到点击创建按钮之后传入的整个表单数据数组
             console.log(this.ruleForm)
             const res = createWork(this.ruleForm)
+
               // this.$emit('success')//先不发送这个成功消息给后端
               this.$message({
                 // showClose: true,
                 message: '恭喜你，添加成功！',
                 type: 'success'
               });
+              this.jumpToAdd();
           } 
         });
       },

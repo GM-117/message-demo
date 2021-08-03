@@ -13,7 +13,6 @@
           style="margin: 10px 60px; width: 60%;">
           {{city.name}}
         </el-checkbox>
-
       </el-checkbox-group>
     </el-card>
 
@@ -21,17 +20,25 @@
 </template>
 
 <script>
+  import { changeBasicSettings } from "@/api/save"
   export default {
     model: {
       prop: 'value',
       event: 'change'
     },
     props: {
+      type: Number,
       firstData: String,
       cities: Array,
       value: {
-        type: Array,
+        type: [Array,Object],
         default: () => []
+      }
+    },
+    watch: {
+      value() {
+        console.log(1)
+        this.checkedCities = this.value
       }
     },
     data() {
@@ -42,7 +49,7 @@
       }
     },
     created() {
-      this.checkedCities = [].concat(this.value)
+      
     },
     methods: {
       handleCheckAllChange(val) {
@@ -60,7 +67,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$emit('change', this.checkedCities)
+          this.$emit('change', {city:this.checkedCities,type: this.type})
         }).catch(() => {
           this.$message({
             type: 'info',
