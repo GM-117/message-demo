@@ -4,7 +4,7 @@
     <el-card class="box-card">
       <div slot="header" class="clearfix">
         <span
-          style="font-weight: bold; color: rgb(102, 102, 102); font-size: 15px"
+          style="font-weight: bold; color: rgb(102, 102, 102); font-size: 18px"
           >状态</span
         >
       </div>
@@ -73,7 +73,7 @@
     <el-card class="boxInfo-card">
       <div slot="header" class="clearfix">
         <span
-          style="font-weight: bold; color: rgb(102, 102, 102); font-size: 15px"
+          style="font-weight: bold; color: rgb(102, 102, 102); font-size: 18px"
           >服务器信息</span
         >
       </div>

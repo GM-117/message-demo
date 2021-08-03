@@ -103,15 +103,6 @@ export default {
         memThreshold: 0,
         monRefresh: 0,
       },
-      ruleForm: {
-        cpuPeriod: null,
-        cpuThreshold: null,
-        diskPeriod: null,
-        diskThreshold: null,
-        memPeriod: null,
-        memThreshold: null,
-        monRefresh: null,
-      },
       rules: {
         cpuPeriod: [
           { required: true, message: "请输入大于1的整数" },
@@ -191,7 +182,7 @@ export default {
   methods: {
     getConfigData() {
       getConfig().then((res) => {
-        console.log(res.data.sysConfigInfo);
+        // console.log(res.data.sysConfigInfo);
         this.configForm = res.data.sysConfigInfo;
       });
     },
@@ -238,7 +229,7 @@ export default {
 <style scoped>
 /* /deep/  */
 .el-form-item {
-  margin: 30px auto;
+  margin: 30px auto; 
 }
 .el-input {
   width: 200px;

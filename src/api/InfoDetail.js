@@ -4,9 +4,10 @@ import request from '@/utils/request'
 export function getSysInfo(params) {
 	return request({
 		// url: 'http://10.11.42.203:88/api/realtime-monitor/monitor/system/sysInfo',
-		url: 'http://10.11.42.203:8083/monitor/system/sysInfo',
+		url: '/realtime-monitor/monitor/system/sysInfo',
 		method: 'get',
-		params
+		params,
+		baseURL: '/api'
 	})
 }
 // 系统配置post请求
@@ -20,25 +21,28 @@ export function postConfig(data) {
 // 系统配置get获取信息
 export function getConfig(params) {
 	return request({
-		url: 'http://10.11.42.203:8083/monitor/sysconfig/SysConfigInfo',
+		url: '/realtime-monitor/monitor/sysconfig/SysConfigInfo',
 		method: 'get',
-		params
+		params,
+		baseURL: '/api'
 	})
 }
 // 1小时
 export function get01DateSysInfo(params) {
 	return request({
-		url: 'http://10.11.42.203:8083/monitor/system/collOneDateSysInfo/1',
+		url: '/realtime-monitor/monitor/system/collOneDateSysInfo/1',
 		method: 'get',
-		params
+		params,
+		baseURL: '/api'
 	})
 }
 // 24小时
 export function get24DateSysInfo(params) {
 	return request({
-		url: 'http://10.11.42.203:8083/monitor/system/collOneDateSysInfo/24',
+		url: '/realtime-monitor/monitor/system/collOneDateSysInfo/24',
 		method: 'get',
-		params
+		params,
+		baseURL: '/api'
 	})
 }
 
