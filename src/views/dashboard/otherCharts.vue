@@ -2,6 +2,7 @@
   <div class="chart">
     <el-card class="box-card">
       <h1>24小时趋势变化</h1>
+      <el-button @click="clickBtn" type="text" class="icon-button"><i class="el-icon-refresh"></i>刷新</el-button>
       <div ref="otherChart" style="height: 350px"></div>
     </el-card>
   </div>
@@ -39,6 +40,11 @@ export default {
       },
     },
   },
+  watch: {
+    cpuUsage() {
+      this.initOtherChart();
+    }
+  },
   data() {
     return {
       myChart: null,
@@ -46,7 +52,6 @@ export default {
     };
   },
   mounted() {
-    this.initOtherChart();
   },
   methods: {
     initOtherChart() {
@@ -65,31 +70,31 @@ export default {
         legend:{
           right: 10,
           data:[{
-            name:'CPU使用量',
+            name:'CPU使用量%',
             textStyle:{fontWeight: 'bold'}
           },{
-            name:'内存使用量',
+            name:'内存使用量%',
             textStyle:{fontWeight: 'bold'}
           },{
-            name:'磁盘使用量',
+            name:'磁盘使用量%',
             textStyle:{fontWeight: 'bold'}
           }]
         },
         series: [
           {
-            name: "CPU使用量",
+            name: "CPU使用量%",
             data: this.cpuUsage,
             type: "line",
             smooth: true,
           },
           {
-            name:"内存使用量",
+            name:"内存使用量%",
             data: this.memoryUsage,
             type: "line",
             smooth: true,
           },
           {
-            name:"磁盘使用量",
+            name:"磁盘使用量%",
             data: this.diskUsage,
             type: "line",
             smooth: true,
@@ -98,6 +103,9 @@ export default {
       };
       this.myChart && this.myChart.setOption(this.option);
     },
+    clickBtn(){
+      this.$parent.get24SysInfo()
+    }
   },
 };
 </script>
@@ -108,5 +116,13 @@ export default {
   height: 450px;
   float: right;
   margin: 20px 0;
+}
+.box-card{
+  position: relative;
+}
+.icon-button{
+  position: absolute;
+  top: 40px;
+  right: 35px;
 }
 </style>

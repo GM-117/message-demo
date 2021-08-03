@@ -25,6 +25,7 @@ export default {
     return {
       NotifyMessage: null,
       ws: null,
+      NotifyName: null
     };
   },
   beforeDestroy() {
@@ -41,8 +42,7 @@ export default {
   methods: {
     startListen() {
       // const ws = new WebSocket("ws://10.11.47.209:8084//imserver/10")
-      // const ws = new WebSocket("ws://10.11.42.203:8083/websocket/admin")
-      this.ws = new WebSocket("ws://10.11.47.209:8084//imserver/8");
+      this.ws = new WebSocket("ws://10.11.41.15:8085/webSocket");
       this.ws.onopen = function () {
         console.log("websocket获取全局通知已启用");
       };
@@ -50,15 +50,16 @@ export default {
         console.log(e.data);
         var mesObj = JSON.parse(e.data);
         let that = this;
-        that.NotifyMessage = mesObj.message;
+        that.NotifyMessage = mesObj.detail;
+        that.NotifyName = mesObj.name;
         console.log(that.NotifyMessage);
         if (that.NotifyMessage) {
           Vue.prototype.$notify({
-            title: "通知",
+            title: that.NotifyName,
             message: that.NotifyMessage,
             type: "warning",
             // position: 'top-left',
-            duration: 10000,
+            duration: 5000,
           });
         }
       };
@@ -86,5 +87,9 @@ export default {
   .fixed-header {
     padding-right: 15px;
   }
+}
+.el-notification__content {
+  text-align: inherit;
+  word-break: break-all;
 }
 </style>

@@ -91,13 +91,13 @@
     </el-card>
 
     <Charts
-      :xchartData="xchartData"
+      :xchartData="xchartData1"
       :cpuUsage="cpuUsage1"
       :memoryUsage="memoryUsage1"
       :diskUsage="diskUsage1"
     />
     <OtherCharts
-      :xchartData="xchartData"
+      :xchartData="xchartData24"
       :cpuUsage="cpuUsage24"
       :memoryUsage="memoryUsage24"
       :diskUsage="diskUsage24"
@@ -111,7 +111,6 @@ import { mapGetters } from "vuex";
 import Charts from "./charts.vue";
 import OtherCharts from "./otherCharts.vue";
 import { getSysInfo , get01DateSysInfo , get24DateSysInfo} from "@/api/InfoDetail";
-import { forEach } from 'mock/table';
 
 export default {
   name: "Dashboard",
@@ -121,7 +120,6 @@ export default {
   },
   data() {
     return {
-      InfoDateTime: "",
       ws: null,
       progressCPU: 0,
       progressMEMORY: 0,
@@ -167,14 +165,15 @@ export default {
         osArch: "NaN",
         userDir: "NaN",
       },
-      xchartData: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-      cpuUsage1: [300, 932, 901, 934, 1290, 1330, 1320],
-      memoryUsage1: [211, 1212, 201, 123, 343, 465, 65],
-      diskUsage1: [211, 112, 333, 7676, 343, 465, 686],
+      xchartData1: [],
+      cpuUsage1: [],
+      memoryUsage1: [],
+      diskUsage1: [],
 
-      cpuUsage24: [300, 932, 901, 934, 1290, 1330, 1320],
-      memoryUsage24: [211, 1212, 201, 123, 343, 465, 65],
-      diskUsage24: [211, 112, 333, 7676, 343, 465, 686]
+      xchartData24: [],
+      cpuUsage24: [],
+      memoryUsage24: [],
+      diskUsage24: []
     };
   },
   created() {
@@ -182,7 +181,6 @@ export default {
     this.getInfo();
     this.get01SysInfo();
     this.get24SysInfo()
-    // this.getTestWebsocketData()
   },
   beforeDestroy() {
     this.ws.close();
@@ -191,18 +189,6 @@ export default {
     ...mapGetters(["name"]),
   },
   methods: {
-    getTestWebsocketData() {
-      const ws = new WebSocket("ws://10.11.41.15:8085/webSocket");
-
-      // const ws = new WebSocket("ws://10.11.47.209:8084//imserver/10");
-
-      ws.onopen = () => {
-        console.log("websocket测试 连接成功");
-      };
-      ws.onmessage = function (e) {
-        console.log(e.data);
-      };
-    },
     getInfo() {
       getSysInfo().then((res) => {
         // console.log(res.data);
@@ -210,22 +196,41 @@ export default {
       });
     },
     get01SysInfo(){
+      this.xchartData1 = [];
+      this.cpuUsage1 = [];
+      this.memoryUsage1 = [];
+      this.diskUsage1 = [];
       get01DateSysInfo().then((res)=>{
-        console.log(res.data)
-        var usages = res.data.data.monUsages;
-        console.log(usages)
-        // for(let i = 0; i< )
+        // console.log(res.data.monUsages)
+        var monUsages1 = res.data.monUsages;
+        for(let i = monUsages1.length - 1; i > 0; i--){
+          this.xchartData1.push(monUsages1[i].createTime);
+          this.cpuUsage1.push(monUsages1[i].cpuUsage);
+          this.memoryUsage1.push(monUsages1[i].memoryUsage)
+          this.diskUsage1.push(monUsages1[i].diskUsage)
+        }
       });
     },
     get24SysInfo(){
+      this.xchartData24 = [];
+      this.cpuUsage24 = [];
+      this.memoryUsage24 = [];
+      this.diskUsage24 = [];
       get24DateSysInfo().then((res)=>{
-        console.log(res.data)
+        // console.log(res.data.monUsages)
+        var monUsages24 = res.data.monUsages;
+        for(let i = monUsages24.length - 1; i > 0; i--){
+          this.xchartData24.push(monUsages24[i].createTime);
+          this.cpuUsage24.push(monUsages24[i].cpuUsage);
+          this.memoryUsage24.push(monUsages24[i].memoryUsage)
+          this.diskUsage24.push(monUsages24[i].diskUsage)
+        }
       });
     },
     getWebsocket() {
       this.ws = new WebSocket("ws://10.11.42.203:8083/websocket/admin");
       this.ws.onopen = () => {
-        console.log("websocket 连接成功");
+        console.log("websocket系统信息连接成功");
       };
       this.ws.onmessage = (e) => {
         // console.log(e.data);
