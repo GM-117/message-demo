@@ -3,10 +3,10 @@
     <div class="select-bar">
       <el-form :inline="true" :model="formInline" class="demo-form-inline">
         <el-form-item>
-          <el-input v-model="formInline.user" placeholder="用户id"></el-input>
+          <el-input v-model="formInline.user" placeholder="请在此处输入用户ID"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" plain @click="selectSubmit" size="small" icon="el-icon-search">查询</el-button>
+          <el-button type="primary" plain @click="selectSubmit(formInline.user)" size="small" icon="el-icon-search">查询</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -44,7 +44,7 @@
 
 <script>
   import AddDialog from './add-dialog.vue'
-  import { queryUserAll, deleteOneUser, deleteAllUser} from '@/api/user'
+  import { queryUserAll, deleteOneUser, deleteAllUser, queryOneUser} from '@/api/user'
 
   export default {
     components: {
@@ -100,11 +100,13 @@
           // console.log(ids)
           // TODO 在这个地方调用后端delete接口，删除成后刷新列表
           const res = await deleteOneUser({ uid: row.uid })
-          this.handleQuery();
+          this.handleQuery()
           this.$message({
             type: 'success',
             message: res.message
-          })
+          }).catch(() => {
+          console.log("取消成功")          
+          });
         })
       },
       selectDelete(){
@@ -128,7 +130,9 @@
           this.$message({
             type: 'success',
             message: res.message
-          })
+          }).catch(() => {
+          console.log("取消成功")
+        });
         })
 
         
@@ -136,18 +140,39 @@
       handleAdd() {
         this.$refs['add-dialog'].open()
       },
-      selectSubmit() {
-        console.log('submit!');
+      async selectSubmit(inputId) {
+        console.log(inputId)
+        if (inputId === '') {
+          this.handleQuery()
+          return
+        }
+        const res = await queryOneUser({ uid: inputId })
+        
+        if (res.data.data === null) {
+          this.$message({
+            type: 'error',
+            message: "该用户不存在！"
+          })
+        }else{
+          //因为查询单条消息的时候后端返回的是一条数据对象，需要加一个[]转换成数据展示（tableDate是数组类型）
+          this.$message({
+          type: 'success',
+          message: res.message
+        })
+        //将返回的数据填充到表格里面
+        this.tableData = [res.data.data]
+        }
+        //   toggleSelection(rows) {
+        //     if (rows) {
+        //       rows.forEach(row => {
+        //         this.$refs.multipleTable.toggleRowSelection(row);
+        //       });
+        //     } else {
+        //       this.$refs.multipleTable.clearSelection();
+        //     }
+        //   }
+
       }
-      //   toggleSelection(rows) {
-      //     if (rows) {
-      //       rows.forEach(row => {
-      //         this.$refs.multipleTable.toggleRowSelection(row);
-      //       });
-      //     } else {
-      //       this.$refs.multipleTable.clearSelection();
-      //     }
-      //   }
     }
   };
 </script>

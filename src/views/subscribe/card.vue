@@ -10,7 +10,7 @@
       <div style="margin: 15px 0;"></div>
       <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
         <el-checkbox v-for="city in cities" :label="city.value" :key="city.value" :border=true
-          style="margin: 10px 70px; width: 50%;">
+          style="margin: 10px 60px; width: 60%;">
           {{city.name}}
         </el-checkbox>
 
@@ -94,7 +94,7 @@
   .box-card {
     width: 25%;
     height: 700px;
-    margin: 30px 60px;
+    margin: 30px 50px;
     float: left;
   }
 </style>

@@ -92,10 +92,6 @@
       },
       close() {
         this.dialogVisible = false
-        this.$message({
-          showClose: true,
-          message: '已取消'
-        });
         this.resetForm()
       },
       resetForm() {
@@ -103,7 +99,7 @@
         delete this.form.id
       },
       queryData(data) {
-        // 通过JONSparse JSON.stringify方法克隆一份数据
+        // 通过JONSparse JSON.stringify方法克隆一份数据--因为数据做了绑定，这里必须要克隆处理
         const cloneData = JSON.parse(JSON.stringify(data))
         console.log(cloneData)
         // 将无效数据转为指定类型的数据
