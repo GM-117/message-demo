@@ -20,13 +20,14 @@
 
         <el-form-item label="处置动作" prop="handle">
           <el-select v-model="form.handle" :disabled="disableControl">
-              <el-option label="请处理" value="0"></el-option>
-              <el-option label="请审批" value="1"></el-option>
-              <el-option label="请审核" value="2"></el-option>
-              <el-option label="请补休" value="3"></el-option>
-              <el-option label="请查杀" value="4"></el-option>
-              <el-option label="请验证" value="5"></el-option>
-              <el-option label="请测试" value="6"></el-option>
+            <!-- 当传给表单的数据是整型时，用v-bind变成整型 -->
+              <el-option label="请处理" :value="0"></el-option>
+              <el-option label="请审批" :value="1"></el-option>
+              <el-option label="请审核" :value="2"></el-option>
+              <el-option label="请补休" :value="3"></el-option>
+              <el-option label="请查杀" :value="4"></el-option>
+              <el-option label="请验证" :value="5"></el-option>
+              <el-option label="请测试" :value="6"></el-option>
           </el-select>
         </el-form-item>
 
@@ -36,25 +37,25 @@
 
         <el-form-item label="状态" prop="wstatus">
           <el-select v-model="form.wstatus" :disabled="disableControl">
-            <el-option label="未处理" value="0"></el-option>
-            <el-option label="处理中" value="1"></el-option>
-            <el-option label="已解决" value="2"></el-option>
-            <el-option label="已指派" value="3"></el-option>
-            <el-option label="已关闭" value="4"></el-option>
+            <el-option label="未处理" :value="0"></el-option>
+            <el-option label="处理中" :value="1"></el-option>
+            <el-option label="已解决" :value="2"></el-option>
+            <el-option label="已指派" :value="3"></el-option>
+            <el-option label="已关闭" :value="4"></el-option>
           </el-select>
         </el-form-item>
 
         <el-form-item label="优先级" prop="priority">
           <el-select v-model="form.priority" :disabled="disableControl">
-            <el-option label="低" value="0"></el-option>
-            <el-option label="高" value="1"></el-option>
+            <el-option label="低" :value="0"></el-option>
+            <el-option label="高" :value="1"></el-option>
           </el-select>
         </el-form-item>
 
         <el-form-item label="创建方式" prop="createMethod">
           <el-select v-model="form.createMethod" :disabled="disableControl">
-            <el-option label="人工创建" value="0"></el-option>
-            <el-option label="自动创建" value="1"></el-option>
+            <el-option label="人工创建" :value="0"></el-option>
+            <el-option label="自动创建" :value="1"></el-option>
           </el-select>
         </el-form-item>
 
@@ -74,7 +75,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer" :disabled="true">
         <el-button size="small" @click="close">取 消</el-button>
-        <el-button size="small" @click="Btn_confirm" type="primary"
+        <el-button size="small" @click="Btn_confirm()" type="primary"
           >确 定</el-button
         >
       </div>
@@ -103,21 +104,29 @@ export default {
     };
   },
   methods: {
-    convert(value){
-      switch(value){
-        case 0:
-          return '低'
-        case 1:
-          return '高'
-      }
-    },
-    convert1(value){
-      switch(value){
-        case 0:
-          return '人工创建'
-        case 1:
-          return '自动创建'
-      }
+    // convert(value){
+    //   switch(value){
+    //     case 0:
+    //       return '低'
+    //     case 1:
+    //       return '高'
+    //   }
+    // },
+    // convert1(value){
+    //   switch(value){
+    //     case 0:
+    //       return '人工创建'
+    //     case 1:
+    //       return '自动创建'
+    //   }
+    // },
+    fetchData() {
+      this.listLoading = true;
+      getList().then((response) => {
+        console.log(response.data.list);
+        this.list = response.data.list;
+        this.listLoading = false;
+      });
     },
     open(params = {}) {
       this.dialogVisible = true;
@@ -126,10 +135,10 @@ export default {
       if (params.isDetail) {
         const data = Object.assign({}, params.data);
         console.log(data)
-        data.handle = this.handleTranslate(data.handle)
-        data.priority = this.convert(data.priority)
-        data.wstatus = this.wstatusTranslate(data.wstatus)
-        data.createMethod = this.convert1(data.createMethod)
+        // data.handle = this.handleTranslate(data.handle)
+        // data.priority = this.convert(data.priority)
+        // data.wstatus = this.wstatusTranslate(data.wstatus)
+        // data.createMethod = this.convert1(data.createMethod)
         this.form = data
         // const data = Object.assign({}, params.data);
         // // const cloneData = JSON.parse(JSON.stringify(params.data))
@@ -147,46 +156,55 @@ export default {
       // this.$refs.form.resetFields();
     },
     Btn_confirm() {
-      const res = updateWorkInfo(this.form)
-      getList()//有问题
-      this.$message({
-              showClose: true,
-              message: '恭喜你，修改成功！',
-              type: 'success'
-            })
-      console.log(this.form);
-      this.dialogVisible = false;
+      this.$refs.form.validate(async (vali) => {
+        // console.log(vali)
+        if (vali) {
+          const res =await updateWorkInfo(this.form)
+          // getList()//有问题
+          this.$message({
+            showClose: true,
+            message: '恭喜你，修改成功！',
+            type: 'success'
+          })
+          console.log(this.form);
+          this.dialogVisible = false;
+          this.$emit('success')
+        }else {
+            console.log('error submit!!');
+            return false;
+          }
+      })
     },
-    handleTranslate(num){
-      if(num===0){
-        return "请处理"
-      }else if(num==1){
-        return "请审批"
-      }else if(num==2){
-        return "请审核"
-      }else if(num==3){
-        return "请补休"
-      }else if(num==4){
-        return "请查杀"
-      }else if(num==5){
-        return "请验证"
-      }else{
-        return "请测试"
-      }
-    },
-    wstatusTranslate(num){
-      if(num===0){
-        return "未处理"
-      }else if(num==1){
-        return "处理中"
-      }else if(num==2){
-        return "已解决"
-      }else if(num==3){
-        return "已指派"
-      }else{
-        return "已关闭"
-      }
-    }
+    // handleTranslate(num){
+    //   if(num===0){
+    //     return "请处理"
+    //   }else if(num==1){
+    //     return "请审批"
+    //   }else if(num==2){
+    //     return "请审核"
+    //   }else if(num==3){
+    //     return "请补休"
+    //   }else if(num==4){
+    //     return "请查杀"
+    //   }else if(num==5){
+    //     return "请验证"
+    //   }else{
+    //     return "请测试"
+    //   }
+    // },
+    // wstatusTranslate(num){
+    //   if(num===0){
+    //     return "未处理"
+    //   }else if(num==1){
+    //     return "处理中"
+    //   }else if(num==2){
+    //     return "已解决"
+    //   }else if(num==3){
+    //     return "已指派"
+    //   }else{
+    //     return "已关闭"
+    //   }
+    // }
   }
 };
 </script>

@@ -349,7 +349,7 @@ export default {
       });
     },
     handleQuery(){
-      console.log("index formdata"+this.formData.id)
+      this.fetchData()
     },
     async Btn_search(data) {
       console.log(data);
