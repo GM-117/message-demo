@@ -21,7 +21,7 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item label="电话" prop="telephone">
-        <el-input v-model="form.telephone"></el-input>
+        <el-input v-model.number="form.telephone"></el-input>
       </el-form-item>
       <el-form-item label="邮箱" prop="email">
         <el-input v-model="form.email"></el-input>
@@ -66,7 +66,9 @@
             { required: true, message: '请选择性别', trigger: 'blur' }
           ],
           telephone: [
-            { required: true, message: '请填写电话', trigger: 'blur' }
+            { required: true, message: '手机号不能为空' },
+            { type: 'number', message: '手机号必须为数字' },
+            { pattern: /^1(3|4|5|6|7|8|9)\d{9}$/, message: '手机号格式不对', trigger: 'blur' }
           ],
           email:[
             { required: true, message: '请填写邮箱', trigger: 'blur' },

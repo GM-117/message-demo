@@ -3,7 +3,7 @@
     <el-row :gutter="12" style="height: 80%;width: 80%;margin:50px auto;">
       <!-- <el-col :span="11"> -->
         <el-card shadow="always">
-          <el-form style="margin: 0 auto;width: 520px;margin-top: 50px;" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+          <el-form style="margin: 0 auto;width: 520px;margin-top: 50px;height: 800px;" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
             <el-form-item label="主题：" prop="topic">
               <el-input v-model="ruleForm.topic"></el-input>
             </el-form-item>
@@ -14,7 +14,7 @@
               </el-select>
             </el-form-item>
             <el-form-item label="处理动作：" prop="handle">
-              <el-select v-model="ruleForm.handle" placeholder="请选择活动区域">
+              <el-select v-model="ruleForm.handle" placeholder="请选择处理动作">
                 <el-option label="请处理" value="0"></el-option>
                 <el-option label="请审批" value="1"></el-option>
                 <el-option label="请审核" value="2"></el-option>
@@ -25,7 +25,17 @@
               </el-select>
             </el-form-item>
             <el-form-item label="受理人：" prop="acceptor">
-                <el-input v-model="ruleForm.acceptor"></el-input>
+                <!-- <el-input v-model="ruleForm.acceptor"></el-input> -->
+                <el-select v-model="ruleForm.acceptor" placeholder="请选择受理人">
+                  <el-option label="王超" value="王超"></el-option>
+                  <el-option label="高萌" value="高萌"></el-option>
+                  <el-option label="谢明利" value="谢明利"></el-option>
+                  <el-option label="万振弘" value="万振弘"></el-option>
+                  <el-option label="陈前程" value="陈前程"></el-option>
+                  <el-option label="秦心玥" value="秦心玥"></el-option>
+                  <el-option label="景亦辰" value="景亦辰"></el-option>
+                </el-select>
+              </el-form-item>
             </el-form-item>
             <el-form-item label="优先级：" prop="priority">
               <el-radio-group v-model="ruleForm.priority">
@@ -37,14 +47,15 @@
             <el-form-item label="详情：" prop="wdescribe">
               <el-input type="textarea" v-model="ruleForm.wdescribe"></el-input>
             </el-form-item>
-            
-            <el-upload class="upload-demo" action="https://jsonplaceholder.typicode.com/posts/" :on-change="handleChange"
-              :file-list="fileList">
-              <el-button size="small" type="primary">点击上传</el-button>
-              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-            </el-upload>
-
-            <el-form-item>
+            <el-card shadow="never" class="file">
+              <!-- 上传文件后，调用action连接后端文档上传地址，当文件上传成功之后接收到后端返回的response，里面的success为true再触发:on-success的钩子函数 -->
+              <el-upload class="upload-demo" action="http://10.11.47.209:8084/workservice/ossfile" :on-success="handleSuccess"
+                :file-list="fileList">
+                <el-button size="small" type="primary">点击上传</el-button>
+                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+              </el-upload>
+            </el-card>
+            <el-form-item style="margin-top: 50px;">
               <el-button type="primary" @click="submitForm" :plain="true" icon="el-icon-s-claim">立即添加</el-button>
               <el-button @click="resetForm('ruleForm')" icon="el-icon-refresh-left">重置</el-button>
             </el-form-item>
@@ -61,20 +72,15 @@
   export default {
     data() {
       return {
-        fileList: [{
-          name: 'food.jpeg',
-          url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-        }, {
-          name: 'food2.jpeg',
-          url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-        }],
+        fileList: [],
         ruleForm: {
           topic: '',
           createName: '',
           handle: '',
           acceptor: '',
           priority:'',
-          wdescribe: ''
+          wdescribe: '',
+          oosUrl:''
         },
         rules: {
           topic: [
@@ -101,8 +107,11 @@
       }
     },
     methods: {
-      handleChange(file, fileList) {
-        this.fileList = fileList.slice(-3);
+      // 该函数将接收到后端返回的response存为res,再将res里面的data里面的url绑定到表单的存文件的字段上
+      handleSuccess(res, file, fileList) {
+        console.log(res,this.file,this.fileList)
+        // this.fileList = fileList.slice(-3);
+        this.ruleForm.oosUrl=res.data.url
       },
       jumpToAdd() {
         this.$router.push("/order/display");
@@ -139,5 +148,8 @@
   /* /deep/  */
   .el-form-item {
     margin-bottom: 50px;
+  }
+  .file{
+    margin: auto;
   }
 </style>

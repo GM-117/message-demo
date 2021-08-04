@@ -17,7 +17,7 @@
       </div>
     </el-row>
     <div class="table-box">
-      <el-table :data="tableData" style="width: 100%" max-height="500" :fit="true" stripe border>
+      <el-table :data="tableData" style="width: 100%" max-height="500" :fit="true" stripe border v-loading="listLoading">
         <el-table-column prop="message_id" label="消息ID" align="center">
         </el-table-column>
         <el-table-column prop="time" label="推送时间" align="center">
@@ -65,16 +65,20 @@
           this.listLoading = false;
         });
       },
-      handleDateChange() {
+      handleDateChange(val){
         {
-          this.listLoading = true;
-          getMessageByCondition({start_time : this.date}).then((response) => {
-          this.tableData = response.data.list;
-          this.tableData.forEach(element => {
-            element.time = formatDateTime(element.time)
-          });
-          this.listLoading = false;
-        });
+          if (!val) {
+            this.fetchData()
+          } else {
+            this.listLoading = true;
+            getMessageByCondition({ start_time: this.date }).then((response) => {
+              this.tableData = response.data.list;
+              this.tableData.forEach(element => {
+                element.time = formatDateTime(element.time)
+              });
+              this.listLoading = false;
+            });
+          }
         }
         // // TODO 当日期改变时候，将date值通过接口传递给后端
         // const res = getMessageByCondition({start_time : this.date})
@@ -122,12 +126,13 @@
         cancelButtonText: '取消',
         type: 'warning'
       }).then(async() => {
-        const res= await deleteAll()
+        console.log(this.data)
+        const res= await deleteAll({date:this.date})
         this.$message({
           type: 'success',
           message: '删除成功!'
         });
-        this.fetchData()
+        this.handleDateChange(this.date)
       }).catch(() => {
           console.log("取消成功")
       });
@@ -135,6 +140,7 @@
   },
   data() {
     return {
+      listLoading:null,
       pickerOptions: {
         disabledDate(time) {
           return time.getTime() > Date.now();

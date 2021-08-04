@@ -46,14 +46,20 @@
           ></el-input>
         </el-form-item>
         <el-form-item prop="acceptor" label="受理人" size="mini">
-          <el-input
+          <!-- <el-input
             v-model="formData.acceptor"
             placeholder="请输入受理人"
             clearable
-          ></el-input>
-          <!-- <el-select v-model="formData.acceptor" placeholder="请选择">
-            <el-option label="admin" value="0"></el-option>
-          </el-select> -->
+          ></el-input> -->
+          <el-select v-model="formData.acceptor" placeholder="请选择">
+            <el-option label="王超" value="王超"></el-option>
+            <el-option label="高萌" value="高萌"></el-option>
+            <el-option label="谢明利" value="谢明利"></el-option>
+            <el-option label="万振弘" value="万振弘"></el-option>
+            <el-option label="陈前程" value="陈前程"></el-option>
+            <el-option label="秦心玥" value="秦心玥"></el-option>
+            <el-option label="景亦辰" value="景亦辰"></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item prop="wstatus" label="状态" size="mini">
           <el-select v-model="formData.wstatus" placeholder="请选择">
