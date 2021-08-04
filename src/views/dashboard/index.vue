@@ -228,7 +228,7 @@ export default {
       });
     },
     getWebsocket() {
-      this.ws = new WebSocket("ws://10.11.42.203:8083/websocket/admin");
+      this.ws = new WebSocket("ws://10.11.42.203:8088/ws?uid=admin");
       this.ws.onopen = () => {
         console.log("websocket系统信息连接成功");
       };

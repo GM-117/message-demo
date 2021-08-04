@@ -105,11 +105,11 @@ export default {
       },
       rules: {
         cpuPeriod: [
-          { required: true, message: "请输入大于1的整数" },
+          { required: true, message: "请输入1-3600的整数" },
           { type: "number", message: "请输入整数" },
           {
-            pattern: /^([1-9]|[1-9]\d|1\d\d|2[0-9]\d)$/,
-            message: "数值大于1",
+            pattern: /^([1-9]|[1-9]\d|[1-9]\d{2}|[1-2]\d{3}|3[0-5]\d{2}|3600)$/,
+            message: "数值范围在1-3600",
             trigger: "blur",
           },
         ],
@@ -119,17 +119,17 @@ export default {
             message: "请输入1-100值可包含两位小数",
           },
           {
-            pattern: /^([1-9]|[1-9]\d|1\d\d)$/,
-            message: "范围在1-100",
+            pattern: /^(([1-9]|[1-9]\d|100)|(([1-9]{1}\d*))(\.\d{1,2}))$/,
+            message: "范围在1-100且至多两位小数",
             trigger: "blur",
-          },
+          }
         ],
         diskPeriod: [
-          { required: true, message: "请输入大于1的整数"},
+          { required: true, message: "请输入1-3600的整数"},
           { type: "number", message: "请输入整数" },
           {
-            pattern: /^([1-9]|[1-9]\d|1\d\d|2[0-9]\d)$/,
-            message: "数值大于1",
+            pattern: /^([1-9]|[1-9]\d|[1-9]\d{2}|[1-2]\d{3}|3[0-5]\d{2}|3600)$/,
+            message: "数值范围在1-3600",
             trigger: "blur",
           },
         ],
@@ -139,17 +139,17 @@ export default {
             message: "请输入1-100值可包含两位小数",
           },
           {
-            pattern: /^([1-9]|[1-9]\d|1\d\d)$/,
-            message: "范围在1-100",
+            pattern: /^(([1-9]|[1-9]\d|100)|(([1-9]{1}\d*))(\.\d{1,2}))$/,
+            message: "范围在1-100且至多两位小数",
             trigger: "blur",
-          },
+          }
         ],
         memPeriod: [
-          { required: true, message: "请输入大于1的整数"},
+          { required: true, message: "请输入1-3600的整数"},
           { type: "number", message: "请输入整数" },
           {
-            pattern: /^([1-9]|[1-9]\d|1\d\d|2[0-9]\d)$/,
-            message: "数值大于1",
+            pattern: /^([1-9]|[1-9]\d|[1-9]\d{2}|[1-2]\d{3}|3[0-5]\d{2}|3600)$/,
+            message: "数值范围在1-3600",
             trigger: "blur",
           },
         ],
@@ -159,10 +159,15 @@ export default {
             message: "请输入1-100值可包含两位小数",
           },
           {
-            pattern: /^([1-9]|[1-9]\d|1\d\d)$/,
-            message: "范围在1-100",
+            pattern: /^(([1-9]|[1-9]\d|100)|(([1-9]{1}\d*))(\.\d{1,2}))$/,
+            message: "范围在1-100且至多两位小数",
             trigger: "blur",
           },
+          // {
+          //   pattern: /^([1-9]|[1-9]\d|1\d\d)$/,
+          //   message: "至多输入两位小数",
+          //   trigger: "blur",
+          // }
         ],
         monRefresh: [
           { required: true, message: "请输入1-60整数"},
