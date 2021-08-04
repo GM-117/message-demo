@@ -37,15 +37,15 @@
         <div class="user-bio-section-body">
           <div class="progress-item">
             <span>Vue</span>
-            <el-progress :percentage="70" />
+            <el-progress :percentage="70" status="warning"/>
           </div>
           <div class="progress-item">
             <span>JavaScript</span>
             <el-progress :percentage="18" />
           </div>
           <div class="progress-item">
-            <span>Css</span>
-            <el-progress :percentage="12" />
+            <span>Node.js</span>
+            <el-progress :percentage="95" color="#f56c6c"/>
           </div>
           <div class="progress-item">
             <span>ESLint</span>
@@ -109,7 +109,7 @@ export default {
         }
       ]
     };
-  }
+  },
 };
 </script>
 

@@ -28,6 +28,7 @@
         label-width="80px"
         size="mini"
         ref="formData"
+        :model="formData"
       >
       <!-- :model="formData" -->
         <el-form-item prop="wid" label="编号" size="mini">
@@ -368,7 +369,7 @@ export default {
       if (res.data.records.length === 0) {
           this.$message({
             type: 'error',
-            message: "该用户不存在！"
+            message: "该工单不存在！"
           })
         }else{
           //因为查询单条消息的时候后端返回的是一条数据对象，需要加一个[]转换成数据展示（tableDate是数组类型）

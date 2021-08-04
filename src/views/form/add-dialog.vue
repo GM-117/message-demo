@@ -26,11 +26,11 @@
       <el-form-item label="邮箱" prop="email">
         <el-input v-model="form.email"></el-input>
       </el-form-item>
-      <el-form-item label="创建时间" prop="createTime">
-        <el-date-picker type="date" placeholder="选择日期" v-model="form.createTime" style="width: 100%"></el-date-picker>
+      <el-form-item label="创建时间" prop="createTime" >
+        <el-date-picker type="date" placeholder="选择日期" v-model="form.createTime" style="width: 100%" :disabled="true"></el-date-picker>
       </el-form-item>
-      <el-form-item label="更新时间" prop="updateTime">
-        <el-date-picker type="date" placeholder="选择日期" v-model="form.updateTime" style="width: 100%"></el-date-picker>
+      <el-form-item label="更新时间" prop="updateTime" >
+        <el-date-picker type="date" placeholder="选择日期" v-model="form.updateTime" style="width: 100%" :disabled="true"></el-date-picker>
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
@@ -71,12 +71,6 @@
           email:[
             { required: true, message: '请填写邮箱', trigger: 'blur' },
             { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
-          ],
-          createTime:[
-            { required: true, message: '请选择日期', trigger: 'blur' }
-          ],
-          updateTime:[
-            { required: true, message: '请选择日期', trigger: 'blur' }
           ]
         }
       }

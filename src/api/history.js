@@ -2,17 +2,19 @@ import request from '@/utils/request'
 
 export function getAllMessage(params) {
   return request({
-    url: 'http://10.11.41.15:8085/message/message/getAllMessage ',
+    url: 'kafka-consumer/message/message/getAllMessage ',
     method: 'get',
-    params
+    params,
+    baseURL: '/api'
   })
 }
 
 export function deleteOne(params) {
   return request({
-    url: 'http://10.11.41.15:8085/message/message/delete',
+    url: 'kafka-consumer/message/message/delete',
     method: 'get',
-    params
+    params,
+    baseURL: '/api'
   })
 }
 
