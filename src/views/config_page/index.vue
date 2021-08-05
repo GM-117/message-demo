@@ -91,6 +91,13 @@
 import { postConfig, getConfig } from "@/api/InfoDetail";
 export default {
   data() {
+    const validateRules = (rule, value, callback) => {
+      if(value < 1 || value > 100){
+        callback(new Error("范围在1-100"));
+      } else {
+        callback();
+      }
+    };
     return {
       loading: false,
       configForm: {
@@ -117,10 +124,16 @@ export default {
           {
             required: true,
             message: "请输入1-100值可包含两位小数",
+            trigger: "blur",
           },
           {
-            pattern: /^(([1-9]|[1-9]\d|100)|(([1-9]{1}\d*))(\.\d{1,2}))$/,
-            message: "范围在1-100且至多两位小数",
+            required: true,
+            trigger: "blur",
+            validator: validateRules
+          },
+          {
+            pattern: /^(([1-9]{1}\d*))(\.\d{1,2})?$/,
+            message: "至多两位小数",
             trigger: "blur",
           }
         ],
@@ -137,10 +150,16 @@ export default {
           {
             required: true,
             message: "请输入1-100值可包含两位小数",
+            trigger: "blur",
           },
           {
-            pattern: /^(([1-9]|[1-9]\d|100)|(([1-9]{1}\d*))(\.\d{1,2}))$/,
-            message: "范围在1-100且至多两位小数",
+            required: true,
+            trigger: "blur",
+            validator: validateRules
+          },
+          {
+            pattern: /^(([1-9]{1}\d*))(\.\d{1,2})?$/,
+            message: "至多两位小数",
             trigger: "blur",
           }
         ],
@@ -157,17 +176,18 @@ export default {
           {
             required: true,
             message: "请输入1-100值可包含两位小数",
-          },
-          {
-            pattern: /^(([1-9]|[1-9]\d|100)|(([1-9]{1}\d*))(\.\d{1,2}))$/,
-            message: "范围在1-100且至多两位小数",
             trigger: "blur",
           },
-          // {
-          //   pattern: /^([1-9]|[1-9]\d|1\d\d)$/,
-          //   message: "至多输入两位小数",
-          //   trigger: "blur",
-          // }
+          {
+            required: true,
+            trigger: "blur",
+            validator: validateRules
+          },
+          {
+            pattern: /^(([1-9]{1}\d*))(\.\d{1,2})?$/,
+            message: "至多两位小数",
+            trigger: "blur",
+          }
         ],
         monRefresh: [
           { required: true, message: "请输入1-60整数"},
